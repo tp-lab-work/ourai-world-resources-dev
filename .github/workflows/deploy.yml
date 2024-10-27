@@ -43,6 +43,19 @@ jobs:
             echo "![${base}]($base.png)" >> "public/Poster/$base.md"
           done
 
+      # Generate Markdown files from JSON data
+      - name: Generate Markdown files from JSON
+        run: |
+          mkdir -p public/Data
+          # JSONファイルを読み込んでMarkdownファイルを生成
+          for file in public/Data/*.json; do
+          base=$(basename "$file" .json)
+          echo "# $base" > "public/Poster/$base.md"
+          echo "```json" > "public/Poster/$base.md"
+          cat $file > "public/Data/$base.md"
+          echo "```" > "public/Poster/$base.md"
+          done
+
       - name: Generate sidebar
         run: bash ./scripts/generate_sidebar.sh
       - name: Setup Pages
