@@ -40,7 +40,7 @@ jobs:
           for file in public/Poster/*.png; do
             base=$(basename "$file" .png)
             echo "# $base" > "public/Poster/$base.md"
-            echo "[![${base}]($base.png)]($base.png)" >> "public/Poster/$base.md"
+            echo "![${base}]($base.png)" >> "public/Poster/$base.md"
           done
 
       - name: Generate sidebar
