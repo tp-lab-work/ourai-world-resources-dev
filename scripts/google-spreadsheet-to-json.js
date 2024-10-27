@@ -4,7 +4,7 @@ const { parse } = require("csv-parse/sync");
 
 // 引数の取得
 const spreadsheetId = process.env.SPREADSHEET_FILE_ID;
-const gid = process.env.GID || "0"; // シートID（GID）を指定。デフォルトは最初のシート
+const gid = process.env.GID || "0";
 const destinationPath = process.env.DESTINATION_PATH;
 
 // CSVのダウンロードURL

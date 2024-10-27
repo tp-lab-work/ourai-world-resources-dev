@@ -40,7 +40,6 @@ jobs:
       # WorldData
       - name: Download spreadsheet and convert to JSON
         env:
-          SERVICE_ACCOUNT_JSON_PATH: "./service-account.json"
           SPREADSHEET_FILE_ID: "${{ secrets.OURAI_WORLD_SPREADSHEET_ID }}"
           DESTINATION_PATH: "./public/Data/WorldData.json"
         run: |
