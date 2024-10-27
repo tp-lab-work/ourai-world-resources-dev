@@ -50,10 +50,10 @@ jobs:
           # JSONファイルを読み込んでMarkdownファイルを生成
           for file in public/Data/*.json; do
           base=$(basename "$file" .json)
-          echo "# $base" > "public/Poster/$base.md"
-          echo "```json" > "public/Poster/$base.md"
+          echo "# $base" > "public/Data/$base.md"
+          echo "```json" > "public/Data/$base.md"
           cat $file > "public/Data/$base.md"
-          echo "```" > "public/Poster/$base.md"
+          echo "```" > "public/Data/$base.md"
           done
 
       - name: Generate sidebar
