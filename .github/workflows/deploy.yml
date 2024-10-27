@@ -53,10 +53,9 @@ jobs:
           for file in public/Data/*.json; do
             base=$(basename "$file" .json)
             echo "# $base" > "public/Data/$base.md"
-            echo '```json' >> "public/Data/$base.md"
-            echo "\n" >> "public/Data/$base.md"
+            echo -e -n '```json\r\n' >> "public/Data/$base.md"
             cat $file >> "public/Data/$base.md"
-            echo "\n" >> "public/Data/$base.md"
+            echo -e -n '\r\n' >> "public/Data/$base.md"
             echo '```' >> "public/Data/$base.md"
           done
 
