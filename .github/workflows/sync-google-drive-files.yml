@@ -5,6 +5,10 @@ on:
   repository_dispatch:
     types: [on-demand-sync-drive-files]
 
+permissions:
+  contents: write
+  id-token: write
+
 jobs:
   sync-drive-to-repo:
     runs-on: ubuntu-latest
