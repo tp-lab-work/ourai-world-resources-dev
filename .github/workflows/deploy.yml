@@ -35,6 +35,7 @@ jobs:
       # Generate Markdown files before generating the sidebar
       - name: Generate Markdown files
         run: |
+          set -e
           mkdir -p public/Poster
           # PNGファイルをMarkdownファイルとして生成
           for file in public/Poster/*.png; do
@@ -46,14 +47,15 @@ jobs:
       # Generate Markdown files from JSON data
       - name: Generate Markdown files from JSON
         run: |
+          set -e
           mkdir -p public/Data
           # JSONファイルを読み込んでMarkdownファイルを生成
           for file in public/Data/*.json; do
             base=$(basename "$file" .json)
             echo "# $base" > "public/Data/$base.md"
-            echo "```json" >> "public/Data/$base.md"
+            echo '```json' >> "public/Data/$base.md"
             cat $file >> "public/Data/$base.md"
-            echo "```" >> "public/Data/$base.md"
+            echo '```' >> "public/Data/$base.md"
           done
 
       - name: Generate sidebar
