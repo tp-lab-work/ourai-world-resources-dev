@@ -1,0 +1,59 @@
+name: Sync Google Drive Files
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [on-demand-sync-drive-files]
+
+jobs:
+  sync-drive-to-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        # with:
+        #   token: ${{ secrets.PAT_TOKEN }}
+
+      - name: Create service account JSON file
+        run: |
+          echo '${{ secrets.SERVICE_ACCOUNT_JSON }}' > service-account.json
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install packages
+        run: |
+          npm install
+        shell: bash
+
+      - name: Download file from Google Drive
+        env:
+          SERVICE_ACCOUNT_JSON_PATH: "./service-account.json"
+          QUERY: "'${{ secrets.OURAI_POSTER_FOLDER_ID }}' in parents"
+          DESTINATION: "./public/Poster"
+        run: |
+          node ./scripts/download-files.js
+
+      - name: Download spreadsheet and convert to JSON
+        env:
+          SERVICE_ACCOUNT_JSON_PATH: "./service-account.json"
+          SPREADSHEET_FILE_ID: "${{ secrets.OURAI_WORLD_SPREADSHEET_ID }}"
+          DESTINATION_PATH: "./public/worldData.json"
+        run: |
+          node ./scripts/google-spreadsheet-to-json.js
+
+      - name: Check for changes
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+
+          git add --all
+
+          if ! git diff-index --quiet HEAD --; then
+            git commit -m "Update images from Google Drive"
+            git push
+          else
+            echo "No changes to commit."
+          fi
